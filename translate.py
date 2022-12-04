@@ -1,5 +1,33 @@
+
 # TODO:
 #   Have the pi gpio pins turn on and off an LED according to the morse code
+
+import RPi.GPIO as GPIO
+import time
+
+led = 11
+def setup():
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(led,GPIO.OUT)
+    GPIO.output(led,GPIO.LOW)
+
+def end():
+    GPIO.cleanup()
+
+def output(char):
+    if char == "*":
+        print("*")
+        GPIO.output(led,GPIO.HIGH)
+        time.sleep(1)
+        GPIO.output(led,GPIO.LOW)
+        time.sleep(0.5)
+    if char == "-":
+        print("-")
+        GPIO.output(led,GPIO.HIGH)
+        time.sleep(2.5)
+        GPIO.output(led,GPIO.LOW)
+        time.sleep(0.5)
+
 
 text = input("Please enter some text. You can only use letters or numbers. \n")
 
@@ -51,4 +79,15 @@ morseL = morse.split(',')
 
 print("Your morse code:" + '   '.join(morseL))
 
-# I'll add the led code later.
+# LED
+try:
+    if lText.isalnum() == True:
+        print("All available characters")
+        setup()
+        chars = list(morse)
+        mapL = list(map(output,chars))
+
+        print("Done.")
+        end()
+except KeyboardInterrupt:
+    end()
