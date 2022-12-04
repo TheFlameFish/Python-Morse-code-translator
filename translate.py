@@ -1,5 +1,4 @@
 # TODO:
-#   Convert the string into a list
 #   Have the pi gpio pins turn on and off an LED according to the morse code
 
 text = input("Please enter some text. You can only use letters or numbers. \n")
@@ -51,3 +50,5 @@ morse = morse.replace("0","-----,")
 morseL = morse.split(',')
 
 print("Your morse code:" + '   '.join(morseL))
+
+# I'll add the led code later.
