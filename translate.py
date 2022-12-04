@@ -18,15 +18,17 @@ def output(char):
     if char == "*":
         print("*")
         GPIO.output(led,GPIO.HIGH)
-        time.sleep(1)
-        GPIO.output(led,GPIO.LOW)
         time.sleep(0.5)
+        GPIO.output(led,GPIO.LOW)
+        time.sleep(0.25)
     if char == "-":
         print("-")
         GPIO.output(led,GPIO.HIGH)
-        time.sleep(2.5)
+        time.sleep(1)
         GPIO.output(led,GPIO.LOW)
-        time.sleep(0.5)
+        time.sleep(0.25)
+    if char == " ":
+        time.sleep(1.5)
 
 
 text = input("Please enter some text. You can only use letters or numbers. \n")
@@ -81,13 +83,13 @@ print("Your morse code:" + '   '.join(morseL))
 
 # LED
 try:
-    if lText.isalnum() == True:
-        print("All available characters")
-        setup()
-        chars = list(morse)
-        mapL = list(map(output,chars))
 
-        print("Done.")
-        end()
+    print("All available characters")
+    setup()
+    chars = list(morse)
+    mapL = list(map(output,chars))
+
+    print("Done.")
+    end()
 except KeyboardInterrupt:
     end()
