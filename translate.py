@@ -4,15 +4,23 @@
 
 import RPi.GPIO as GPIO
 import time
+import keyboard
 
 led = 11
+button = 12
+
 def setup():
     GPIO.setmode(GPIO.BOARD)
     GPIO.setup(led,GPIO.OUT)
     GPIO.output(led,GPIO.LOW)
 
+    GPIO.setup(button,GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 def end():
     GPIO.cleanup()
+
+def input():
+    print("WIP!")
 
 def output(char):
     if char == "*":
