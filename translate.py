@@ -12,7 +12,13 @@ button = 12
 global holdTimer
 holdTimer = 0
 
-morseL = {}
+global idleTimer
+idleTimer = 0
+
+morseL = []
+
+shortOrLong = False #Short is False, long is True
+charWriting = False
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -24,15 +30,47 @@ def setup():
 def end():
     GPIO.cleanup()
 
-def input():
-    print(holdTimer)
-    if GPIO.input(button) == GPIO.HIGH:
-        time.sleep(1)
-        holdTimer =+ 1
-        if holdTimer > 5:
-            GPIO.output(led,GPIO.HIGH)
-    else:
-        holdTimer = 0
+def getInput():
+    global shortOrLong
+    global charWriting
+    global holdTimer
+    global idleTimer
+    global morseL
+
+
+    while True:
+        if GPIO.input(button) == GPIO.LOW:
+            idleTimer = 0
+            charWriting = True
+            time.sleep(1)
+            holdTimer = holdTimer + 1
+            if holdTimer <= 1:
+                print("Input recieved.")
+            
+        else:
+            if charWriting:
+                print("writing")
+                if shortOrLong:
+                    list.append(morseL,"-")
+                    print("-")
+
+                else:
+                    list.append(morseL,"*")
+                    print("*")
+            charWriting = False
+            holdTimer = 0
+            shortOrLong = False
+            time.sleep(1)
+            idleTimer = idleTimer + 1
+
+        if holdTimer >= 5:
+                shortOrLong = True
+                GPIO.output(led,GPIO.HIGH)
+        else:
+            GPIO.output(led,GPIO.LOW)
+
+        if idleTimer >= 10:
+            return(morseL)
 
 
 def output(char):
@@ -107,8 +145,8 @@ try:
 
     print("All available characters")
     setup()
-    while True:
-        input()
+    
+    getInput()
 
     print("Done.")
     end()
